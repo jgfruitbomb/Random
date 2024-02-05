@@ -4,6 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "remove": "rm test.txt",
+    "build:ui": "@powershell Remove-Item -Recurse -Force dist && cd ../tutorials/part2-notes-frontend && npm run build && @powershell Copy-Item dist -Recurse ../../part3",
+    "deploy": "bash ./deploy.sh",
+    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push && npm run deploy",
+    "logs:prod": "fly logs",
     "start": "node index.js",
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -15,6 +20,7 @@
     "express": "^4.18.2"
   },
   "devDependencies": {
+    "@flydotio/dockerfile": "^0.5.0",
     "nodemon": "^3.0.3"
   }
 }
