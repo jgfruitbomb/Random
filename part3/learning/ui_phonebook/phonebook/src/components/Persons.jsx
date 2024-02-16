@@ -9,7 +9,9 @@ const Persons = (props) => {
           return (
             <p key={person.key || index}>
               {person.name} - {person.number}
+            <button onClick={props.handleDelete}>Delete</button>
             </p>
+            
           );
         })}
     </>

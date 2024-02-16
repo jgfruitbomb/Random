@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import Persons from "./components/Persons";
 import PersonForm from "./components/PersonForm";
 import Filter from "./components/Filter";
+import person from "./services/persons"
 
 function App() {
   const [persons, setPersons] = useState([]);
@@ -11,7 +11,7 @@ function App() {
   const [filter, setFilter] = useState("");
 
   useEffect(() => {
-    axios.get("http://localhost:3001/persons").then((response) => {
+    person.getAll().then((response) => {
       setPersons(response.data);
     });
   }, []);
@@ -39,6 +39,9 @@ function App() {
 
     // Add to array
     setPersons(persons.concat(tempPerson));
+
+    // Add to database
+    person.create(tempPerson)
   };
 
   const handleFilter = (event) => {
