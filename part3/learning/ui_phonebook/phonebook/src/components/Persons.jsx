@@ -5,11 +5,11 @@ const Persons = (props) => {
         .filter((person) =>
           person.name.toUpperCase().includes(props.filter.toUpperCase())
         )
-        .map((person, index) => {
+        .map((person) => {
           return (
-            <p key={person.key || index}>
+            <p key={person.id}>
               {person.name} - {person.number}
-            <button onClick={props.handleDelete}>Delete</button>
+            <button onClick={ () => props.handleDelete(person.id)}>Delete</button>
             </p>
             
           );

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Persons from "./components/Persons";
 import PersonForm from "./components/PersonForm";
 import Filter from "./components/Filter";
-import person from "./services/persons"
+import personAPI from "./services/persons";
 
 function App() {
   const [persons, setPersons] = useState([]);
@@ -11,7 +11,7 @@ function App() {
   const [filter, setFilter] = useState("");
 
   useEffect(() => {
-    person.getAll().then((response) => {
+    personAPI.getAll().then((response) => {
       setPersons(response.data);
     });
   }, []);
@@ -31,22 +31,33 @@ function App() {
       alert(`${newName} is already added to phonebook`);
       return;
     }
+
+
+
     // Build new temp object
     const tempPerson = {
       name: newName,
       number: newNumber,
+      id: (Math.random() * 100).toString()
     };
 
     // Add to array
     setPersons(persons.concat(tempPerson));
 
     // Add to database
-    person.create(tempPerson)
+    personAPI.create(tempPerson)
   };
 
   const handleFilter = (event) => {
     setFilter(event.target.value);
   };
+
+  const handleDelete = (id) => {
+    console.log(id)
+    personAPI.remove(id);
+    
+    setPersons(persons.filter(person => person.id !== id))
+  }
 
   return (
     <div>
@@ -59,7 +70,7 @@ function App() {
         handleNumberChange={handleNumberChange}
       />
       <h2>Numbers</h2>
-      <Persons filter={filter} persons={persons} />
+      <Persons filter={filter} persons={persons} handleDelete={handleDelete}/>
     </div>
   );
 }
