@@ -53,7 +53,9 @@ function App() {
   };
 
   const handleDelete = (id) => {
-    console.log(id)
+    if(!window.confirm("You sure you want to delete this?"))
+      return;
+
     personAPI.remove(id);
     
     setPersons(persons.filter(person => person.id !== id))
