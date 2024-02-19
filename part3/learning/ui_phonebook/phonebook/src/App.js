@@ -2,13 +2,16 @@ import { useState, useEffect } from "react";
 import Persons from "./components/Persons";
 import PersonForm from "./components/PersonForm";
 import Filter from "./components/Filter";
+import Notification from "./components/Notification";
 import personAPI from "./services/persons";
+import './App.css'
 
 function App() {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filter, setFilter] = useState("");
+  const [notificationMessage, setNotificationMessage] = useState(null)
 
   useEffect(() => {
     personAPI.getAll().then((response) => {
@@ -58,7 +61,12 @@ function App() {
     setPersons(persons.concat(tempPerson));
 
     // Add to database
-    personAPI.create(tempPerson)
+    personAPI.create(tempPerson);
+
+    setNotificationMessage(`Added ${newName}`)
+    setTimeout( () => {
+      setNotificationMessage(null)
+    }, 1000)
     }
   };
 
@@ -78,6 +86,9 @@ function App() {
   return (
     <div>
       <h2>Phonebook</h2>
+      <div className = "notification">
+      <Notification message={notificationMessage}/>
+      </div>
       <Filter handleFilter={handleFilter} />
       <h1>add a new</h1>
       <PersonForm

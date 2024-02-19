@@ -1,0 +1,11 @@
+.notification {
+    color: green;
+    background-color: grey;
+    border-width: medium;
+    border-radius: 15px;
+    border-style: solid;
+}
+
+.notification:empty{
+    display:none
+}
