@@ -26,14 +26,6 @@ function App() {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // Check if exist
-    if (persons.some((person) => person.name === newName)) {
-      alert(`${newName} is already added to phonebook`);
-      return;
-    }
-
-
-
     // Build new temp object
     const tempPerson = {
       name: newName,
@@ -41,11 +33,33 @@ function App() {
       id: (Math.random() * 100).toString()
     };
 
+    // Check if exist
+    if (persons.some((person) => person.name === newName)) {
+      if (!window.confirm("Do you want to update the user number"))
+      {
+       return;
+      } else {
+      // User wants to update the existing number
+      const matchedIndex = persons.map(person => person.name).indexOf(newName)
+      personAPI.update(persons[matchedIndex].id, tempPerson)
+      
+      const newPerson = persons.map(p => {
+        if (p.name === newName) {
+            return {...p, number: newNumber}
+        }
+        return p;
+      }
+    )
+      
+      setPersons(newPerson)
+      }
+    } else {
     // Add to array
     setPersons(persons.concat(tempPerson));
 
     // Add to database
     personAPI.create(tempPerson)
+    }
   };
 
   const handleFilter = (event) => {
