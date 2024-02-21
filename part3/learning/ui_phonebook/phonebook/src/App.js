@@ -12,6 +12,7 @@ function App() {
   const [newNumber, setNewNumber] = useState("");
   const [filter, setFilter] = useState("");
   const [notificationMessage, setNotificationMessage] = useState(null)
+  const [status, setStatus] = useState();
 
   useEffect(() => {
     personAPI.getAll().then((response) => {
@@ -45,6 +46,17 @@ function App() {
       // User wants to update the existing number
       const matchedIndex = persons.map(person => person.name).indexOf(newName)
       personAPI.update(persons[matchedIndex].id, tempPerson)
+        .catch (error => {
+          setNotificationMessage(`Error updating ${newName} user is no longer there`);
+          setStatus("error");
+
+          setTimeout( () => {
+            setNotificationMessage(null)
+            setStatus("")
+          }, 1000)
+          
+          return;
+        })
       
       const newPerson = persons.map(p => {
         if (p.name === newName) {
@@ -64,8 +76,10 @@ function App() {
     personAPI.create(tempPerson);
 
     setNotificationMessage(`Added ${newName}`)
+    setStatus("good")
     setTimeout( () => {
       setNotificationMessage(null)
+      setStatus("")
     }, 1000)
     }
   };
@@ -86,7 +100,7 @@ function App() {
   return (
     <div>
       <h2>Phonebook</h2>
-      <div className = "notification">
+      <div className = {`notification-${status}`}>
       <Notification message={notificationMessage}/>
       </div>
       <Filter handleFilter={handleFilter} />

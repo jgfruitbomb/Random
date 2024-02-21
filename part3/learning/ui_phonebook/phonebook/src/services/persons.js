@@ -11,10 +11,6 @@ const create = (person) => {
 
 const update = (id, person) => {
   return axios.put(`${baseUrl}/${id}`, person)
-    .catch (error => (
-      console.log(`Error updating resource: ${error}`)
-      
-    ));
 };
 
 const remove = (id) => {

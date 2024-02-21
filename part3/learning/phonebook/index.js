@@ -52,12 +52,18 @@ app.get("/info", (request, response) => {
 app.get("/api/persons/:id", (request, response) => {
   const id = Number(request.params.id);
 
+  // ID is not defined
   if (!id) {
     response.status(404).json({
       error: "content missing",
     });
   } else {
     const person = persons.find((p) => p.id === id);
+
+    if (!person) {
+      response.status(404).end()
+    return;
+    }
 
     response.json(person);
   }

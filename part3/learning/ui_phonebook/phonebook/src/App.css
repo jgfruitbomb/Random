@@ -1,4 +1,4 @@
-.notification {
+.notification-good {
     color: green;
     background-color: grey;
     border-width: medium;
@@ -6,6 +6,14 @@
     border-style: solid;
 }
 
-.notification:empty{
+.notification-error {
+    color: red;
+    background-color: grey;
+    border-width: medium;
+    border-radius: 15px;
+    border-style: solid;
+}
+
+.notification-:empty{
     display:none
 }
